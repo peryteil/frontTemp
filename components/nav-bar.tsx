@@ -2,44 +2,45 @@ import Link from "next/link"
 
 export function NavBar() {
   return (
-    <header className="w-full bg-traveling-bg py-4">
-      <div className="container mx-auto flex items-center justify-between px-4">
+    <header className="w-full bg-white py-4 shadow-sm">
+      <div className="container mx-auto flex items-center justify-between px-6">
         <Link href="/" className="flex items-center gap-2">
-          <div className="relative h-10 w-10">
-            <svg viewBox="0 0 40 40" className="h-full w-full">
-              <path
-                d="M20,2 C12.268,2 6,8.268 6,16 C6,25 20,38 20,38 C20,38 34,25 34,16 C34,8.268 27.732,2 20,2 Z"
-                fill="#8ca896"
-              />
-            </svg>
-          </div>
-          <span className="text-2xl font-bold text-traveling-text">트래블링</span>
+          <span className="text-2xl font-bold text-traveling-pink">트래블링</span>
         </Link>
 
         <nav className="hidden md:block">
-          <ul className="flex space-x-8">
+          <ul className="flex space-x-16">
             <li>
-              <Link href="/flight-accommodation" className="text-lg font-medium text-traveling-text hover:opacity-70">
-                항공/숙소
-              </Link>
-            </li>
-            <li>
-              <Link href="/travel-planner" className="text-lg font-medium text-traveling-text hover:opacity-70">
+              <Link href="/travel-planner" className="text-lg font-medium text-gray-700 hover:text-traveling-purple">
                 여행만들기
               </Link>
             </li>
             <li>
-              <Link href="/community" className="text-lg font-medium text-traveling-text hover:opacity-70">
+              <Link href="/community" className="text-lg font-medium text-gray-700 hover:text-traveling-purple">
                 커뮤니티
               </Link>
             </li>
             <li>
-              <Link href="/mypage" className="text-lg font-medium text-traveling-text hover:opacity-70">
+              <Link href="/flight-search" className="text-lg font-medium text-gray-700 hover:text-traveling-purple">
+                항공권
+              </Link>
+            </li>
+            <li>
+              <Link href="/mypage" className="text-lg font-medium text-gray-700 hover:text-traveling-purple">
                 마이페이지
               </Link>
             </li>
           </ul>
         </nav>
+
+        <div className="flex items-center space-x-6">
+          <Link href="/login" className="text-traveling-purple hover:text-traveling-text">
+            로그인
+          </Link>
+          <Link href="/signup" className="login-button">
+            회원가입
+          </Link>
+        </div>
       </div>
     </header>
   )

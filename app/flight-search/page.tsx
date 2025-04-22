@@ -6,7 +6,7 @@ export default function FlightSearchPage() {
     <main className="min-h-screen bg-traveling-background">
       <NavBar />
       <div className="container mx-auto px-4 py-8">
-        <h1 className="mb-6 text-3xl font-bold text-traveling-text">항공권 검색</h1>
+        <h1 className="mb-6 text-3xl font-bold text-traveling-text">항공권 검색 및 예약</h1>
         <FlightSearchContent />
       </div>
     </main>

@@ -76,14 +76,19 @@
   }
 }
 
-/* 여행 웹사이트 테마 색상 */
+/* 여행 웹사이트 테마 색상 - 새로운 파스텔 색상 */
 :root {
-  --traveling-bg: #f7ecd9;
-  --traveling-text: #2d3436;
-  --traveling-green: #8ca896;
-  --traveling-coral: #e8b4a9;
-  --traveling-beige: #f0e4c9;
-  --traveling-highlight: #e8b4a9;
+  --traveling-pink: #ff9a9e;
+  --traveling-purple: #a78bfa;
+  --traveling-blue: #93c5fd;
+  --traveling-yellow: #fcd34d;
+  --traveling-mint: #6ee7b7;
+  --traveling-bg: #dbeafe;
+  --traveling-text: #4338ca;
+  --traveling-light-pink: #fce7f3;
+  --traveling-light-yellow: #fef3c7;
+  --traveling-light-blue: #e0f2fe;
+  --traveling-light-green: #d1fae5;
 }
 
 body {
@@ -91,92 +96,72 @@ body {
   color: var(--traveling-text);
 }
 
-.world-map-bg {
-  background-image: url("/images/world-map-bg.png");
+.sky-bg {
+  background-image: url("/images/sky-background.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 
-.plane-path {
-  stroke-dasharray: 5;
-  animation: dash 20s linear infinite;
+.plane-animation {
+  animation: fly 15s infinite linear;
 }
 
-@keyframes dash {
-  to {
-    stroke-dashoffset: 1000;
+@keyframes fly {
+  0% {
+    transform: translateX(0) translateY(0);
+  }
+  25% {
+    transform: translateX(50px) translateY(-20px);
+  }
+  50% {
+    transform: translateX(100px) translateY(0);
+  }
+  75% {
+    transform: translateX(50px) translateY(20px);
+  }
+  100% {
+    transform: translateX(0) translateY(0);
   }
 }
 
-.btn-flight {
-  background-color: var(--traveling-green);
-  color: white;
-  border-radius: 9999px;
-  transition: all 0.3s ease;
-}
-
-.btn-flight:hover {
-  background-color: rgba(140, 168, 150, 0.9);
-}
-
-.btn-travel {
-  background-color: var(--traveling-coral);
-  color: white;
-  border-radius: 9999px;
-  transition: all 0.3s ease;
-}
-
-.btn-travel:hover {
-  background-color: rgba(232, 180, 169, 0.9);
-}
-
-.btn-community {
-  background-color: var(--traveling-beige);
-  color: var(--traveling-text);
-  border-radius: 9999px;
-  transition: all 0.3s ease;
-}
-
-.btn-community:hover {
-  background-color: rgba(240, 228, 201, 0.9);
-}
-
-.btn-mypage {
-  background-color: var(--traveling-green);
-  color: white;
-  border-radius: 9999px;
-  transition: all 0.3s ease;
-}
-
-.btn-mypage:hover {
-  background-color: rgba(140, 168, 150, 0.9);
-}
-
 .city-card {
-  border-radius: 1.5rem;
-  padding: 2rem;
+  border-radius: 24px;
+  padding: 1.5rem;
   text-align: center;
   transition: transform 0.3s ease;
-  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
 .city-card:hover {
   transform: scale(1.05);
 }
 
-.city-card-tokyo {
-  background-color: white;
+.tokyo-card {
+  background-color: var(--traveling-light-pink);
 }
 
-.city-card-paris {
-  background-color: #fae3d9;
+.paris-card {
+  background-color: var(--traveling-light-yellow);
 }
 
-.city-card-rome {
-  background-color: white;
+.rome-card {
+  background-color: var(--traveling-light-blue);
 }
 
-.city-card-bangkok {
-  background-color: #e8f0e6;
+.bangkok-card {
+  background-color: var(--traveling-light-green);
+}
+
+.login-button {
+  background-color: #a78bfa;
+  color: white;
+  border-radius: 9999px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #8b5cf6;
 }

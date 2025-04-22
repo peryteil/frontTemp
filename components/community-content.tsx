@@ -7,9 +7,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input"
 import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import Link from "next/link"
 
 export function CommunityContent() {
   const [activeTab, setActiveTab] = useState("tips")
+  const [searchTerm, setSearchTerm] = useState("")
 
   const tipPosts = [
     {
@@ -71,7 +73,7 @@ export function CommunityContent() {
 
   const freePosts = [
     {
-      id: 1,
+      id: 4,
       title: "방금 도쿄 여행 다녀왔어요! (사진 많음)",
       author: "도쿄여행자",
       date: "2025.04.20",
@@ -82,7 +84,7 @@ export function CommunityContent() {
       color: "#ff6b6b",
     },
     {
-      id: 2,
+      id: 5,
       title: "여행 중 겪은 황당한 에피소드",
       author: "웃픈여행",
       date: "2025.04.17",
@@ -93,7 +95,7 @@ export function CommunityContent() {
       color: "#4dabf7",
     },
     {
-      id: 3,
+      id: 8,
       title: "혼자 떠난 제주도 3박 4일",
       author: "솔로여행러",
       date: "2025.04.14",
@@ -104,7 +106,7 @@ export function CommunityContent() {
       color: "#51cf66",
     },
     {
-      id: 4,
+      id: 9,
       title: "가족과 함께한 오사카 여행기",
       author: "행복한아빠",
       date: "2025.04.11",
@@ -115,7 +117,7 @@ export function CommunityContent() {
       color: "#ffd43b",
     },
     {
-      id: 5,
+      id: 10,
       title: "유럽 한 달 살기 후기",
       author: "유럽생활자",
       date: "2025.04.09",
@@ -129,7 +131,7 @@ export function CommunityContent() {
 
   const travelMatePosts = [
     {
-      id: 1,
+      id: 6,
       title: "5월 초 방콕 여행 동행 구해요 (20대 여성)",
       author: "방콕가자",
       date: "2025.04.19",
@@ -140,7 +142,7 @@ export function CommunityContent() {
       color: "#ffd43b",
     },
     {
-      id: 2,
+      id: 7,
       title: "다음 주 제주도 렌트카 동행 1명 구함",
       author: "제주드라이버",
       date: "2025.04.18",
@@ -151,7 +153,7 @@ export function CommunityContent() {
       color: "#51cf66",
     },
     {
-      id: 3,
+      id: 11,
       title: "6월 유럽 배낭여행 동행자 모집 (30대 남성)",
       author: "유럽탐험가",
       date: "2025.04.16",
@@ -162,7 +164,7 @@ export function CommunityContent() {
       color: "#4dabf7",
     },
     {
-      id: 4,
+      id: 12,
       title: "오사카 3박 4일 여행 동행 구해요",
       author: "오사카러버",
       date: "2025.04.15",
@@ -173,7 +175,7 @@ export function CommunityContent() {
       color: "#ff6b6b",
     },
     {
-      id: 5,
+      id: 13,
       title: "다낭 1주일 동행 구합니다 (식도락 여행)",
       author: "베트남맛집",
       date: "2025.04.13",
@@ -186,23 +188,43 @@ export function CommunityContent() {
   ]
 
   const getPostsByTab = () => {
+    let posts
     switch (activeTab) {
       case "tips":
-        return tipPosts
+        posts = tipPosts
+        break
       case "free":
-        return freePosts
+        posts = freePosts
+        break
       case "mate":
-        return travelMatePosts
+        posts = travelMatePosts
+        break
       default:
-        return tipPosts
+        posts = tipPosts
     }
+
+    // 검색어가 있으면 필터링
+    if (searchTerm.trim()) {
+      return posts.filter(
+        (post) =>
+          post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          post.tags.some((tag) => tag.toLowerCase().includes(searchTerm.toLowerCase())),
+      )
+    }
+
+    return posts
   }
 
   return (
     <div className="rounded-xl bg-white p-6 shadow-md">
       <div className="mb-6 flex items-center justify-between">
         <div className="relative w-full max-w-md">
-          <Input placeholder="검색어를 입력하세요" className="bg-[#f8f9fa] pl-10" />
+          <Input
+            placeholder="검색어를 입력하세요"
+            className="bg-[#f8f9fa] pl-10"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#4dabf7]" />
         </div>
         <Button className="ml-4 bg-[#ffd43b] text-[#1e3a8a] hover:bg-[#fcc419]">글쓰기</Button>
@@ -224,43 +246,45 @@ export function CommunityContent() {
         <TabsContent value="tips">
           <div className="space-y-4">
             {getPostsByTab().map((post) => (
-              <Card key={post.id} className="overflow-hidden bg-[#f8f9fa] hover:bg-[#e7f5ff]/20">
-                <div className="absolute left-0 top-0 h-full w-1" style={{ backgroundColor: post.color }}></div>
-                <CardHeader className="pb-2 pl-6 pt-4">
-                  <div className="flex items-start justify-between">
-                    <CardTitle className="text-lg text-[#1e3a8a]">{post.title}</CardTitle>
-                    <div className="flex space-x-1">
-                      {post.tags.map((tag) => (
-                        <Badge key={tag} className="bg-[#e7f5ff] text-[#1c7ed6] hover:bg-[#d0ebff]">
-                          {tag}
-                        </Badge>
-                      ))}
+              <Link href={`/community/post/${post.id}`} key={post.id}>
+                <Card className="overflow-hidden bg-[#f8f9fa] transition-all duration-200 hover:bg-[#e7f5ff]/20 hover:shadow-md">
+                  <div className="absolute left-0 top-0 h-full w-1" style={{ backgroundColor: post.color }}></div>
+                  <CardHeader className="pb-2 pl-6 pt-4">
+                    <div className="flex items-start justify-between">
+                      <CardTitle className="text-lg text-[#1e3a8a]">{post.title}</CardTitle>
+                      <div className="flex space-x-1">
+                        {post.tags.map((tag) => (
+                          <Badge key={tag} className="bg-[#e7f5ff] text-[#1c7ed6] hover:bg-[#d0ebff]">
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                </CardHeader>
-                <CardFooter className="flex items-center justify-between pb-4 pl-6 pt-2 text-sm text-[#495057]">
-                  <div className="flex items-center">
-                    <User className="mr-1 h-3 w-3 text-[#4dabf7]" />
-                    <span className="mr-3">{post.author}</span>
-                    <Clock className="mr-1 h-3 w-3 text-[#4dabf7]" />
-                    <span>{post.date}</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
+                  </CardHeader>
+                  <CardFooter className="flex items-center justify-between pb-4 pl-6 pt-2 text-sm text-[#495057]">
                     <div className="flex items-center">
-                      <Eye className="mr-1 h-3 w-3 text-[#4dabf7]" />
-                      <span>{post.views}</span>
+                      <User className="mr-1 h-3 w-3 text-[#4dabf7]" />
+                      <span className="mr-3">{post.author}</span>
+                      <Clock className="mr-1 h-3 w-3 text-[#4dabf7]" />
+                      <span>{post.date}</span>
                     </div>
-                    <div className="flex items-center">
-                      <ThumbsUp className="mr-1 h-3 w-3 text-[#4dabf7]" />
-                      <span>{post.likes}</span>
+                    <div className="flex items-center space-x-3">
+                      <div className="flex items-center">
+                        <Eye className="mr-1 h-3 w-3 text-[#4dabf7]" />
+                        <span>{post.views}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <ThumbsUp className="mr-1 h-3 w-3 text-[#4dabf7]" />
+                        <span>{post.likes}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <MessageSquare className="mr-1 h-3 w-3 text-[#4dabf7]" />
+                        <span>{post.comments}</span>
+                      </div>
                     </div>
-                    <div className="flex items-center">
-                      <MessageSquare className="mr-1 h-3 w-3 text-[#4dabf7]" />
-                      <span>{post.comments}</span>
-                    </div>
-                  </div>
-                </CardFooter>
-              </Card>
+                  </CardFooter>
+                </Card>
+              </Link>
             ))}
           </div>
         </TabsContent>
@@ -268,43 +292,45 @@ export function CommunityContent() {
         <TabsContent value="free">
           <div className="space-y-4">
             {getPostsByTab().map((post) => (
-              <Card key={post.id} className="overflow-hidden bg-[#f8f9fa] hover:bg-[#e7f5ff]/20">
-                <div className="absolute left-0 top-0 h-full w-1" style={{ backgroundColor: post.color }}></div>
-                <CardHeader className="pb-2 pl-6 pt-4">
-                  <div className="flex items-start justify-between">
-                    <CardTitle className="text-lg text-[#1e3a8a]">{post.title}</CardTitle>
-                    <div className="flex space-x-1">
-                      {post.tags.map((tag) => (
-                        <Badge key={tag} className="bg-[#e7f5ff] text-[#1c7ed6] hover:bg-[#d0ebff]">
-                          {tag}
-                        </Badge>
-                      ))}
+              <Link href={`/community/post/${post.id}`} key={post.id}>
+                <Card className="overflow-hidden bg-[#f8f9fa] transition-all duration-200 hover:bg-[#e7f5ff]/20 hover:shadow-md">
+                  <div className="absolute left-0 top-0 h-full w-1" style={{ backgroundColor: post.color }}></div>
+                  <CardHeader className="pb-2 pl-6 pt-4">
+                    <div className="flex items-start justify-between">
+                      <CardTitle className="text-lg text-[#1e3a8a]">{post.title}</CardTitle>
+                      <div className="flex space-x-1">
+                        {post.tags.map((tag) => (
+                          <Badge key={tag} className="bg-[#e7f5ff] text-[#1c7ed6] hover:bg-[#d0ebff]">
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                </CardHeader>
-                <CardFooter className="flex items-center justify-between pb-4 pl-6 pt-2 text-sm text-[#495057]">
-                  <div className="flex items-center">
-                    <User className="mr-1 h-3 w-3 text-[#4dabf7]" />
-                    <span className="mr-3">{post.author}</span>
-                    <Clock className="mr-1 h-3 w-3 text-[#4dabf7]" />
-                    <span>{post.date}</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
+                  </CardHeader>
+                  <CardFooter className="flex items-center justify-between pb-4 pl-6 pt-2 text-sm text-[#495057]">
                     <div className="flex items-center">
-                      <Eye className="mr-1 h-3 w-3 text-[#4dabf7]" />
-                      <span>{post.views}</span>
+                      <User className="mr-1 h-3 w-3 text-[#4dabf7]" />
+                      <span className="mr-3">{post.author}</span>
+                      <Clock className="mr-1 h-3 w-3 text-[#4dabf7]" />
+                      <span>{post.date}</span>
                     </div>
-                    <div className="flex items-center">
-                      <ThumbsUp className="mr-1 h-3 w-3 text-[#4dabf7]" />
-                      <span>{post.likes}</span>
+                    <div className="flex items-center space-x-3">
+                      <div className="flex items-center">
+                        <Eye className="mr-1 h-3 w-3 text-[#4dabf7]" />
+                        <span>{post.views}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <ThumbsUp className="mr-1 h-3 w-3 text-[#4dabf7]" />
+                        <span>{post.likes}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <MessageSquare className="mr-1 h-3 w-3 text-[#4dabf7]" />
+                        <span>{post.comments}</span>
+                      </div>
                     </div>
-                    <div className="flex items-center">
-                      <MessageSquare className="mr-1 h-3 w-3 text-[#4dabf7]" />
-                      <span>{post.comments}</span>
-                    </div>
-                  </div>
-                </CardFooter>
-              </Card>
+                  </CardFooter>
+                </Card>
+              </Link>
             ))}
           </div>
         </TabsContent>
@@ -312,39 +338,41 @@ export function CommunityContent() {
         <TabsContent value="mate">
           <div className="space-y-4">
             {getPostsByTab().map((post) => (
-              <Card key={post.id} className="overflow-hidden bg-[#f8f9fa] hover:bg-[#e7f5ff]/20">
-                <div className="absolute left-0 top-0 h-full w-1" style={{ backgroundColor: post.color }}></div>
-                <CardHeader className="pb-2 pl-6 pt-4">
-                  <div className="flex items-start justify-between">
-                    <CardTitle className="text-lg text-[#1e3a8a]">{post.title}</CardTitle>
-                    <div className="flex space-x-1">
-                      {post.tags.map((tag) => (
-                        <Badge key={tag} className="bg-[#e7f5ff] text-[#1c7ed6] hover:bg-[#d0ebff]">
-                          {tag}
-                        </Badge>
-                      ))}
+              <Link href={`/community/post/${post.id}`} key={post.id}>
+                <Card className="overflow-hidden bg-[#f8f9fa] transition-all duration-200 hover:bg-[#e7f5ff]/20 hover:shadow-md">
+                  <div className="absolute left-0 top-0 h-full w-1" style={{ backgroundColor: post.color }}></div>
+                  <CardHeader className="pb-2 pl-6 pt-4">
+                    <div className="flex items-start justify-between">
+                      <CardTitle className="text-lg text-[#1e3a8a]">{post.title}</CardTitle>
+                      <div className="flex space-x-1">
+                        {post.tags.map((tag) => (
+                          <Badge key={tag} className="bg-[#e7f5ff] text-[#1c7ed6] hover:bg-[#d0ebff]">
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                </CardHeader>
-                <CardFooter className="flex items-center justify-between pb-4 pl-6 pt-2 text-sm text-[#495057]">
-                  <div className="flex items-center">
-                    <User className="mr-1 h-3 w-3 text-[#4dabf7]" />
-                    <span className="mr-3">{post.author}</span>
-                    <Clock className="mr-1 h-3 w-3 text-[#4dabf7]" />
-                    <span>{post.date}</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
+                  </CardHeader>
+                  <CardFooter className="flex items-center justify-between pb-4 pl-6 pt-2 text-sm text-[#495057]">
                     <div className="flex items-center">
-                      <Eye className="mr-1 h-3 w-3 text-[#4dabf7]" />
-                      <span>{post.views}</span>
+                      <User className="mr-1 h-3 w-3 text-[#4dabf7]" />
+                      <span className="mr-3">{post.author}</span>
+                      <Clock className="mr-1 h-3 w-3 text-[#4dabf7]" />
+                      <span>{post.date}</span>
                     </div>
-                    <div className="flex items-center">
-                      <Users className="mr-1 h-3 w-3 text-[#4dabf7]" />
-                      <span>{post.comments}</span>
+                    <div className="flex items-center space-x-3">
+                      <div className="flex items-center">
+                        <Eye className="mr-1 h-3 w-3 text-[#4dabf7]" />
+                        <span>{post.views}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <Users className="mr-1 h-3 w-3 text-[#4dabf7]" />
+                        <span>{post.comments}</span>
+                      </div>
                     </div>
-                  </div>
-                </CardFooter>
-              </Card>
+                  </CardFooter>
+                </Card>
+              </Link>
             ))}
           </div>
         </TabsContent>

@@ -88,12 +88,19 @@ export function FlightSearchContent() {
               출발지
             </Label>
             <div className="relative">
-              <Input
-                id="departure"
-                placeholder="도시 또는 공항"
-                className="bg-traveling-background pl-10 border-traveling-text/30"
-              />
-              <MapPin className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-traveling-text" />
+              <Select defaultValue="ICN">
+                <SelectTrigger id="departure" className="bg-traveling-background pl-10 border-traveling-text/30">
+                  <SelectValue placeholder="도시 또는 공항" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="ICN">서울 (인천 - ICN)</SelectItem>
+                  <SelectItem value="GMP">서울 (김포 - GMP)</SelectItem>
+                  <SelectItem value="PUS">부산 (김해 - PUS)</SelectItem>
+                  <SelectItem value="CJU">제주 (CJU)</SelectItem>
+                  <SelectItem value="TAE">대구 (TAE)</SelectItem>
+                </SelectContent>
+              </Select>
+              <MapPin className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-traveling-text z-10" />
             </div>
           </div>
           <div>
@@ -101,12 +108,26 @@ export function FlightSearchContent() {
               도착지
             </Label>
             <div className="relative">
-              <Input
-                id="arrival"
-                placeholder="도시 또는 공항"
-                className="bg-traveling-background pl-10 border-traveling-text/30"
-              />
-              <MapPin className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-traveling-text" />
+              <Select defaultValue="FUK">
+                <SelectTrigger id="arrival" className="bg-traveling-background pl-10 border-traveling-text/30">
+                  <SelectValue placeholder="도시 또는 공항" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="FUK">후쿠오카 (FUK)</SelectItem>
+                  <SelectItem value="NRT">도쿄 (나리타 - NRT)</SelectItem>
+                  <SelectItem value="HND">도쿄 (하네다 - HND)</SelectItem>
+                  <SelectItem value="KIX">오사카 (KIX)</SelectItem>
+                  <SelectItem value="NGO">나고야 (NGO)</SelectItem>
+                  <SelectItem value="CTS">삿포로 (CTS)</SelectItem>
+                  <SelectItem value="OKA">오키나와 (OKA)</SelectItem>
+                  <SelectItem value="BKK">방콕 (BKK)</SelectItem>
+                  <SelectItem value="SIN">싱가포르 (SIN)</SelectItem>
+                  <SelectItem value="CDG">파리 (CDG)</SelectItem>
+                  <SelectItem value="FCO">로마 (FCO)</SelectItem>
+                  <SelectItem value="VCE">베니스 (VCE)</SelectItem>
+                </SelectContent>
+              </Select>
+              <MapPin className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-traveling-text z-10" />
             </div>
           </div>
         </div>
@@ -353,6 +374,42 @@ export function FlightSearchContent() {
                   price: 290000,
                   stops: "직항",
                   color: "#e8b4a9",
+                },
+                {
+                  airline: "대한항공",
+                  logo: "KE",
+                  departure: "08:45",
+                  arrival: "10:05",
+                  duration: "1시간 20분",
+                  from: "인천 (ICN)",
+                  to: "후쿠오카 (FUK)",
+                  price: 280000,
+                  stops: "직항",
+                  color: "#e8b4a9",
+                },
+                {
+                  airline: "아시아나항공",
+                  logo: "OZ",
+                  departure: "13:30",
+                  arrival: "14:50",
+                  duration: "1시간 20분",
+                  from: "인천 (ICN)",
+                  to: "후쿠오카 (FUK)",
+                  price: 265000,
+                  stops: "직항",
+                  color: "#8ca896",
+                },
+                {
+                  airline: "제주항공",
+                  logo: "7C",
+                  departure: "19:15",
+                  arrival: "20:35",
+                  duration: "1시간 20분",
+                  from: "인천 (ICN)",
+                  to: "후쿠오카 (FUK)",
+                  price: 210000,
+                  stops: "직항",
+                  color: "#f0e4c9",
                 },
               ].map((flight, index) => (
                 <Card
